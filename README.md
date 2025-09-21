@@ -1,17 +1,77 @@
-### CM2040 Database Networks and the Web
-#### Installation requirements
-The following modules have been downloaded for this project:
-bcrypt
-body-parser
-connect-flash
-cookie-parser
-ejs
-express
-express-session
-passport
-passport-local
-path
-sqlite3
+# 📝 CM2040 Database Networks and the Web – Blogging Tool
+
+A secure blogging platform built with **Node.js**, **Express.js**, **SQLite3**, and **Passport.js**, featuring article management, comments, user authentication, and responsive views with EJS and Bootstrap.  
+This project was developed as part of the **CM2040 – Databases, Networks & the Web** module.
+
+📺 **[Watch Demo Video](https://youtu.be/RST2-K4jG58)**
+
+---
+
+## ✨ Features
+
+- **Article Management**
+  - Create, edit, delete, and publish/unpublish articles
+  - Articles include title, subtitle, body, and view counter
+
+- **Comments**
+  - Readers can add comments to articles
+  - Linked to article ID with cascade delete
+
+- **Settings**
+  - Custom blog metadata (title, subtitle, author)
+
+- **User Authentication**
+  - Registration & Login system (Passport.js local strategy)
+  - Secure password hashing with bcrypt
+  - Session management with express-session
+  - Flash messages for login/logout feedback
+
+- **Likes**
+  - Readers can like articles
+  - Article-likes tracked with composite keys
+
+- **Secure Routes**
+  - Only logged-in authors can access article management
+  - Middleware ensures protected access
+
+---
+
+## 📂 Project Structure
+
+```
+│── assets/ # Static files (images, CSS, background)
+│── config/ # Passport.js config
+│── public/ # Public CSS/JS
+│── routes/ # Express routes (author, reader, auth)
+│── views/ # EJS templates (layouts, home, article pages)
+│── db_schema.sql # Database schema
+│── database.db # SQLite3 database
+│── index.js # App entry point
+│── package.json
+│── README.md
+```
+
+---
+
+## 🔧 Installation Requirements
+
+The following modules must be installed for this project:
+
+- bcrypt  
+- body-parser  
+- connect-flash  
+- cookie-parser  
+- ejs  
+- express  
+- express-session  
+- passport  
+- passport-local  
+- path  
+- sqlite3  
+
+Install them with: `npm install`
+
+---
 
 ### Account Registration Requirements
 
@@ -23,21 +83,29 @@ When first running the application, you must register an account. Please note th
   - At least one **lowercase letter** (a-z)
   - At least one **number** (0-9)
 
-#### Styling
+---
+
+### Styling
 Most of the styling in this application is done using the Bootstrap library. This ensures a responsive and visually appealing design with minimal effort.
 
-#### Using this template
+---
 
-This template sets you off in the right direction for your coursework. To get started:
+### 🚀 Getting Started
 
-- Run `npm install` from the project directory to install all the node packages.
+1. Run npm install from the project directory to install all Node packages.
 
-- Run `npm run build-db` to create the database on Mac or Linux
-  or run `npm run build-db-win` to create the database on Windows
+2. Build the database:
+  * On Mac/Linux: `npm run build-db`
+  * On Windows: `npm run build-db-win`
 
-- Run `npm run start` to start serving the web app (Access via http://localhost:3000)
+3. Start the web app: `npm run start`
 
-Test the app by browsing to the following routes:
+4. Open the app at: http://localhost:3000
+
+---
+
+### 🌐 Routes
+
 **Main Home Page**
 - http://localhost:3000
 
@@ -64,3 +132,13 @@ Test the app by browsing to the following routes:
 
 **Reader - Article Page**
 - http://localhost:3000/reader/1
+
+---
+
+### 🔒 Security
+
+* Passwords are hashed with **bcrypt** (cost factor 10) before being stored.
+
+* **express-session** manages user sessions securely.
+
+* Unauthorized access is blocked using custom middleware.
