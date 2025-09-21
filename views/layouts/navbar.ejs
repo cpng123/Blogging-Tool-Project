@@ -1,0 +1,56 @@
+<!-- Navigation bar using Bootstrap -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <div class="container">
+
+    <!-- Link that directs to the author or reader home based on the page title -->
+    <a href="<%= pageTitle.startsWith('Author') ? '/author' : '/reader' %>" class="navbar-brand"><%= pageTitle %></a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+
+        <!-- Home link -->
+        <li class="nav-item">
+          <a href="/" class="nav-link <%= pageTitle === 'Home Page' ? 'active' : '' %>">Home</a>
+        </li>
+
+        <!-- Reader link -->
+        <li class="nav-item">
+          <a href="/reader" class="nav-link <%= pageTitle === 'Reader Home Page' ? 'active' : '' %>">Reader</a>
+        </li>
+
+        <!-- Author-specific links -->
+        <% if (pageTitle.startsWith('Author')) { %>
+          <li class="nav-item">
+            <a href="/author/settings" class="nav-link <%= pageTitle === 'Settings Page' ? 'active' : '' %>">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a href="/author" class="nav-link <%= pageTitle.startsWith('Author') && pageTitle !== 'Author Home Page' ? 'active' : '' %>">Author</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Section for displaying website title, subtitle, and author -->
+<section class="bg-dark text-light p-5 text-center">
+    <div class="container">
+      <div class="row mb-2">
+        <div class="col">
+          <!-- Main title -->
+          <h1 style="color: #fac05d;"><%= settings.title %></h1>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col">
+          <!-- Subtitle -->
+          <h3 style="color: #fffae6;"><%= settings.subtitle %></h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <!-- Author name -->
+          <h5 style="color: #fffae6;">Arthor: <%= settings.author %></h5>
+        </div>
+      </div>
+    </div>
+  </section>

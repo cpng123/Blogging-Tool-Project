@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reader Article</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+</head>
+<body>
+  <%- include("layouts/navbar", { pageTitle: 'Reader Article' }) %>
+
+  <div class="container mt-5 text-center">
+    <h1><%= article.title %></h1>
+    <h5 class="text-muted"><%= article.subtitle %></h5>
+    <h6 class="text-muted d-inline-block">Published on: <%= new Date(article.published_date).toLocaleString() %></h6>
+    <h6 class="text-muted d-inline-block ms-3">Views: <%= article.views %></h6>
+
+    <div class="d-flex justify-content-center align-items-center mb-4 mt-3">
+      <button type="button" class="btn btn-primary me-3" onclick="like()">
+        Like (<span id="likeCount"><%= article.likes %></span>)
+      </button>
+    </div>
+
+    <hr class="container">
+
+    <div class="mb-4">
+      <p><%= article.body %></p>
+    </div>
+
+    <hr class="container">
+
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <label for="name" class="form-label"><b>Your Name (optional)</b></label>
+        <textarea id="name" name="name" rows="3" class="form-control mb-2 equal-height" placeholder="Name (optional)"></textarea>
+      </div>
+      <div class="col-md-8">
+        <label for="comments" class="form-label"><b>Leave your comments</b></label>
+        <textarea id="comments" name="comments" rows="3" class="form-control mb-2" placeholder="Comments"></textarea>
+      </div>
+      <div class="d-flex justify-content-between">
+        <a href="/" role="button" class="btn btn-secondary">Return</a>
+        <button type="button" class="btn btn-warning" onclick="comments()">Submit</button>
+      </div>
+    </div>
+    
+    <hr class="container">
+
+    <div class="row">
+      <% comments.forEach(function(comment) { %>
+        <div class="col-md-4 mb-3">
+          <div class="p-3 border rounded text-start" style="background-color: #f0f0f0;">
+            <p class="mb-1 text-muted">
+              <b><%= comment.name %></b> | Posted: <%= new Date(comment.comment_date).toLocaleString() %>
+            </p>
+            <hr class="container">
+            <p><%= comment.comment_content %></p>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+    
+    
+  </div>
+
+  <script>
+    function like() {
+      fetch("/reader/like/<%= article.id %>", { method: "POST" })
+        .then(function (res) {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return res.json();
+        })
+        .then(function (data) {
+          document.getElementById("likeCount").textContent = data.likes;
+        })
+        .catch(function (error) {
+          console.error("Error:", error);
+        });
+    }
+
+    function comments() {
+      const name = document.querySelector("#name").value || "Mystery";
+      const comment = document.querySelector("#comments").value;
+
+      if (comment) {
+        const formData = new URLSearchParams({ name, comment });
+        fetch("/reader/comments/<%= article.id %>", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: formData.toString(),
+        })
+          .then(function (res) {
+            if (!res.ok) {
+              throw new Error("Network response was not ok");
+            }
+            location.reload();
+          })
+          .catch(function (error) {
+            console.error("Error:", error);
+          });
+      }
+    }
+  </script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"
+  ></script>
+</body>
+</html>

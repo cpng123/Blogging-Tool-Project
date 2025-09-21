@@ -1,0 +1,67 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title mb-3"><%= title %></h5>
+    <h6 class="card-subtitle mb-2 text-muted"><%= subtitle %></h6>
+    <hr />
+    <p class="card-text">
+      <!-- Creation Date -->
+      <span
+        ><b>Created:</b> <%= new Date(created_date).toLocaleString() %></span
+      >
+
+      <!-- If modified, display modification date -->
+      <% if (modified_date) { %>
+      <br />
+      <span><b>Modified:</b> <%= new Date(modified_date).toLocaleString() %></span>
+      <% } %>
+
+      <!-- If published, display publication date -->
+      <% if (published_date) { %>
+      <br />
+      <span><b>Published:</b> <%= new Date(published_date).toLocaleString()
+        %></span>
+      <br />
+
+      <!-- If published, display views number -->
+      <span><b>Views:</b> <%= views %></span>
+      <br />
+
+      <!-- If published, display likes number -->
+      <span><b>Likes:</b> <%= likes %></span>
+      <% } %>
+    </p>
+
+    <!-- Editing Link -->
+    <button onclick="editArticle('<%= id %>')" class="btn btn-primary">
+      Edit
+    </button>
+
+    <!-- View Article Link -->
+    <% if (published_date) { %>
+    <a href="/reader/<%= id %>" class="btn btn-success">View article</a>
+    <% } else { %>
+    <!-- Publish Button -->
+    <button onclick="publishArticle('<%= id %>')" class="btn btn-success">
+      Publish
+    </button>
+    <% } %>
+
+    <!-- Delete Button -->
+    <button
+      type="button"
+      onclick="deleteArticle('<%= id %>')"
+      class="btn btn-danger"
+    >
+      Delete
+    </button>
+  </div>
+</div>
+
+<script>
+  function editArticle(articleId) {
+    window.location.href = "/author/edit/" + articleId;
+  }
+  function viewArticle(articleId) {
+    window.location.href = "/reader/" + articleId;
+  }
+</script>
